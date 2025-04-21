@@ -1,0 +1,104 @@
+Q.1)
+import java.util.Scanner;
+
+public class MatrixOperations {
+    static int rowSum(int[][] matrix, int row) {
+        int sum = 0;
+        for (int i = 0; i < 3; i++) {
+            sum += matrix[row][i];
+        }
+        return sum;
+    }
+
+    static int columnSum(int[][] matrix, int col) {
+        int sum = 0;
+        for (int i = 0; i < 3; i++) {
+            sum += matrix[i][col];
+        }
+        return sum;
+    }
+
+    static int diagonalSum(int[][] matrix, boolean isPrimary) {
+        int sum = 0;
+        if (isPrimary) {
+            for (int i = 0; i < 3; i++) {
+                sum += matrix[i][i];
+            }
+        } else {
+            for (int i = 0; i < 3; i++) {
+                sum += matrix[i][2 - i];
+            }
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[][] matrix = new int[3][3];
+
+        System.out.println("Enter 3x3 matrix:");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Sum of row " + i + ": " + rowSum(matrix, i));
+        }
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Sum of column " + i + ": " + columnSum(matrix, i));
+        }
+
+        System.out.println("Sum of primary diagonal: " + diagonalSum(matrix, true));
+        System.out.println("Sum of secondary diagonal: " + diagonalSum(matrix, false));
+    }
+}
+
+Q.2)
+import java.util.Scanner;
+
+public class Bubblesort {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.print("Enter the number of elements: ");
+        int length = scanner.nextInt();
+
+        
+        int[] arr = new int[length];
+        System.out.println("Enter " + length + " elements:");
+        for (int i = 0; i < length; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        
+        System.out.print("Unsorted array: ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+        
+        for (int i = 0; i < length; i++) {
+            for (int j = 1; j < length - i; j++) {
+                if (arr[j - 1] > arr[j]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j - 1];
+                    arr[j - 1] = temp;
+                }
+            }
+        }
+
+       
+        System.out.print("Sorted array: ");
+        for (int i = 0; i < length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+
+        scanner.close();
+    }
+}

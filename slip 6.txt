@@ -1,0 +1,159 @@
+Q.1)
+import java.util.Scanner;
+
+public class MatrixMultiplication {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter number of rows in Matrix A: ");
+        int rowsA = scanner.nextInt();
+        System.out.print("Enter number of columns in Matrix A: ");
+        int colsA = scanner.nextInt();
+
+       
+        System.out.print("Enter number of rows in Matrix B: ");
+        int rowsB = scanner.nextInt();
+        System.out.print("Enter number of columns in Matrix B: ");
+        int colsB = scanner.nextInt();
+
+        
+        if (colsA != rowsB) {
+            System.out.println("Matrix multiplication is not possible. Columns of A must match rows of B.");
+            return;
+        }
+
+        int[][] A = new int[rowsA][colsA];
+        int[][] B = new int[rowsB][colsB];
+        int[][] result = new int[rowsA][colsB];
+
+      
+        System.out.println("Enter elements of Matrix A:");
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsA; j++) {
+                A[i][j] = scanner.nextInt();
+            }
+        }
+
+        
+        System.out.println("Enter elements of Matrix B:");
+        for (int i = 0; i < rowsB; i++) {
+            for (int j = 0; j < colsB; j++) {
+                B[i][j] = scanner.nextInt();
+            }
+        }
+
+        
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsB; j++) {
+                for (int k = 0; k < colsA; k++) {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+       
+        System.out.println("Resultant Matrix after Multiplication:");
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsB; j++) {
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}
+
+Q.2)
+
+import java.util.Scanner;
+
+public class MergeSortExample {
+
+    // Function to perform merge sort
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            // Sort the first and second halves
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            // Merge the sorted halves
+            merge(arr, left, mid, right);
+        }
+    }
+
+    // Function to merge two subarrays
+    public static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Create temporary arrays
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        // Copy data to temp arrays
+        for (int i = 0; i < n1; ++i)
+            L[i] = arr[left + i];
+        for (int j = 0; j < n2; ++j)
+            R[j] = arr[mid + 1 + j];
+
+        // Merge the temp arrays
+        int i = 0, j = 0;
+        int k = left;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k++] = L[i++];
+            } else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        // Copy remaining elements of L[]
+        while (i < n1) {
+            arr[k++] = L[i++];
+        }
+
+        // Copy remaining elements of R[]
+        while (j < n2) {
+            arr[k++] = R[j++];
+        }
+    }
+
+    // Function to print an array
+    public static void printArray(int[] arr) {
+        for (int value : arr)
+            System.out.print(value + " ");
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input number of elements
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        // Input array elements
+        int[] arr = new int[n];
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = scanner.nextInt();
+
+        // Print original array
+        System.out.println("Original array:");
+        printArray(arr);
+
+        // Perform merge sort
+        mergeSort(arr, 0, n - 1);
+
+        // Print sorted array
+        System.out.println("Sorted array:");
+        printArray(arr);
+
+        scanner.close();
+    }
+}

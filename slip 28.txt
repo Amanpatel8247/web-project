@@ -1,0 +1,115 @@
+Q.1)
+import java.util.Scanner;
+
+public class MaxMinFinder {
+
+    
+    public static int findMaximum(int[] arr) {
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        return max;
+    }
+
+    
+    public static int findMinimum(int[] arr) {
+        int min = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+        }
+        return min;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        
+        int[] arr = new int[n];
+
+        
+        System.out.println("Enter " + n + " numbers:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        
+        int max = findMaximum(arr);
+        int min = findMinimum(arr);
+
+       
+        System.out.println("Maximum number: " + max);
+        System.out.println("Minimum number: " + min);
+
+        scanner.close();
+    }
+}
+
+
+Q.2)
+import java.util.*;
+
+public class OptimalMergePattern {
+
+    
+    public static int optimalMerge(int[] files) {
+       
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        
+       
+        for (int file : files) {
+            minHeap.add(file);
+        }
+
+        int totalCost = 0;
+
+       
+        while (minHeap.size() > 1) {
+          
+            int first = minHeap.poll();
+            int second = minHeap.poll();
+
+           
+            int mergeCost = first + second;
+            totalCost += mergeCost;
+
+            
+            minHeap.add(mergeCost);
+        }
+
+        return totalCost;
+    }
+
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.print("Enter the number of files: ");
+        int n = scanner.nextInt();
+
+        
+        int[] files = new int[n];
+        System.out.println("Enter the sizes of the files:");
+        for (int i = 0; i < n; i++) {
+            files[i] = scanner.nextInt();
+        }
+
+       
+        int minCost = optimalMerge(files);
+
+        
+        System.out.println("The minimum cost to merge all files is: " + minCost);
+        
+        scanner.close();
+    }
+}
+

@@ -1,0 +1,137 @@
+Q.1) 
+import java.util.Scanner;
+
+public class MatrixAddition {
+
+   
+    public static int[][] addMatrices(int[][] a, int[][] b, int rows, int cols) {
+        int[][] result = new int[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result[i][j] = a[i][j] + b[i][j];
+            }
+        }
+
+        return result;
+    }
+
+   
+    public static void displayMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int elem : row) {
+                System.out.print(elem + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.print("Enter number of rows: ");
+        int rows = scanner.nextInt();
+        System.out.print("Enter number of columns: ");
+        int cols = scanner.nextInt();
+
+        int[][] matrix1 = new int[rows][cols];
+        int[][] matrix2 = new int[rows][cols];
+
+        
+        System.out.println("Enter elements of first matrix:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix1[i][j] = scanner.nextInt();
+            }
+        }
+
+       
+        System.out.println("Enter elements of second matrix:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix2[i][j] = scanner.nextInt();
+            }
+        }
+
+       
+        int[][] sum = addMatrices(matrix1, matrix2, rows, cols);
+
+       
+        System.out.println("Resultant Matrix after Addition:");
+        displayMatrix(sum);
+
+        scanner.close();
+    }
+}
+Q.2)
+import java.util.*;
+
+public class FractionalKnapsack {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter the number of items: ");
+        int n = scanner.nextInt();
+        int[] weights = new int[n];
+        int[] profits = new int[n];
+        double[] ratios = new double[n];
+
+        
+        System.out.println("Enter weight and profit of each item:");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Item " + (i + 1) + " - Weight: ");
+            weights[i] = scanner.nextInt();
+            System.out.print("Item " + (i + 1) + " - Profit: ");
+            profits[i] = scanner.nextInt();
+            ratios[i] = (double) profits[i] / weights[i]; // Calculate profit/weight ratio
+        }
+
+      
+        System.out.print("Enter capacity of the knapsack: ");
+        int capacity = scanner.nextInt();
+
+       
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (ratios[i] < ratios[j]) {
+                   
+                    double temp = ratios[i];
+                    ratios[i] = ratios[j];
+                    ratios[j] = temp;
+                   
+                    int tempWeight = weights[i];
+                    weights[i] = weights[j];
+                    weights[j] = tempWeight;
+
+                    int tempProfit = profits[i];
+                    profits[i] = profits[j];
+                    profits[j] = tempProfit;
+                }
+            }
+        }
+
+       
+        double totalProfit = 0.0;
+        int currentWeight = 0;
+        for (int i = 0; i < n; i++) {
+            if (currentWeight + weights[i] <= capacity) {
+               
+                currentWeight += weights[i];
+                totalProfit += profits[i];
+            } else {
+               
+                int remainingCapacity = capacity - currentWeight;
+                totalProfit += ratios[i] * remainingCapacity;
+                break; 
+            }
+        }
+
+        
+        System.out.printf("Maximum Profit = %.2f\n", totalProfit);
+
+        scanner.close();
+    }
+}

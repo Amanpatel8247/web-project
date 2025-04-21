@@ -1,0 +1,106 @@
+Q.1)
+import java.util.Scanner;
+
+public class MaxMinArray {
+
+   
+    public static int findMax(int[] arr) {
+        int max = arr[0];
+        for (int num : arr) {
+            if (num > max) {
+                max = num;
+            }
+        }
+        return max;
+    }
+
+   
+    public static int findMin(int[] arr) {
+        int min = arr[0];
+        for (int num : arr) {
+            if (num < min) {
+                min = num;
+            }
+        }
+        return min;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        int[] arr = new int[n];
+
+      
+        System.out.println("Enter " + n + " numbers:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+       
+        int max = findMax(arr);
+        int min = findMin(arr);
+
+      
+        System.out.println("Maximum number: " + max);
+        System.out.println("Minimum number: " + min);
+
+        scanner.close();
+    }
+}
+
+
+Q.2)
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+public class BinarySearchFromFile {
+
+    public static int binarySearch(int[] arr, int key) {
+        int low = 0, high = arr.length - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == key)
+                return mid;
+            else if (arr[mid] < key)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        try {
+            File file = new File("input.txt");
+            Scanner fileScanner = new Scanner(file);
+            List<Integer> list = new ArrayList<>();
+            while (fileScanner.hasNextInt()) {
+                list.add(fileScanner.nextInt());
+            }
+            fileScanner.close();
+
+            int[] arr = list.stream().mapToInt(i -> i).toArray();
+            Arrays.sort(arr);
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter number to search: ");
+            int key = scanner.nextInt();
+
+            int index = binarySearch(arr, key);
+
+            if (index != -1)
+                System.out.println("Element found at index: " + index);
+            else
+                System.out.println("Element not found.");
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+    }
+}

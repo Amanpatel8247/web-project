@@ -1,0 +1,109 @@
+Q.1)
+import java.util.Scanner;
+
+public class LinearSearch {
+
+   
+    public static int linearSearch(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i; 
+            }
+        }
+        return -1; 
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of elements in the array: ");
+        int n = scanner.nextInt();
+
+        int[] arr = new int[n];
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the element to search for: ");
+        int key = scanner.nextInt();
+
+        int result = linearSearch(arr, key);
+
+        if (result != -1) {
+            System.out.println("Element found at index " + result);
+        } else {
+            System.out.println("Element not found in the array.");
+        }
+
+        scanner.close();
+    }
+}
+
+Q.2)
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class FractionalKnapsackSimple {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+       
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
+        int[] weights = new int[n];
+        int[] profits = new int[n];
+        double[] density = new double[n];
+
+        System.out.println("Enter weight and profit of each item:");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Weight of item " + (i + 1) + ": ");
+            weights[i] = sc.nextInt();
+            System.out.print("Profit of item " + (i + 1) + ": ");
+            profits[i] = sc.nextInt();
+            density[i] = (double) profits[i] / weights[i]; 
+        }
+
+        System.out.print("Enter capacity of knapsack: ");
+        int capacity = sc.nextInt();
+
+       
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (density[i] < density[j]) {
+                    
+                    double tempD = density[i];
+                    density[i] = density[j];
+                    density[j] = tempD;
+                   
+                    int tempW = weights[i];
+                    weights[i] = weights[j];
+                    weights[j] = tempW;
+                   
+                    int tempP = profits[i];
+                    profits[i] = profits[j];
+                    profits[j] = tempP;
+                }
+            }
+        }
+
+       
+        double totalProfit = 0;
+        for (int i = 0; i < n && capacity > 0; i++) {
+            if (weights[i] <= capacity) {
+               
+                totalProfit += profits[i];
+                capacity -= weights[i];
+            } else {
+               
+                totalProfit += density[i] * capacity;
+                capacity = 0;
+            }
+        }
+
+        System.out.printf("Maximum Profit = %.2f\n", totalProfit);
+
+        sc.close();
+    }
+}

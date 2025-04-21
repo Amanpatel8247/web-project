@@ -1,0 +1,227 @@
+Q.1)
+import java.util.Scanner;
+
+public class SelectionSort {
+    
+    static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+       
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            
+           
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            
+            
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+    static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = sc.nextInt();
+
+      
+        int[] arr = new int[n];
+
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+       
+        selectionSort(arr);
+
+       
+        System.out.println("Sorted array in ascending order:");
+        printArray(arr);
+    }
+}
+
+
+
+Q.2)
+import java.util.*;
+
+public class SimpleHuffmanCoding {
+
+   
+    static class Node {
+        char character;
+        int frequency;
+
+        Node(char character, int frequency) {
+            this.character = character;
+            this.frequency = frequency;
+        }
+    }
+
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter the string to be encoded: ");
+        String input = scanner.nextLine();
+
+       
+        Map<Character, Integer> frequencyMap = new HashMap<>();
+        for (char c : input.toCharArray()) {
+            frequencyMap.put(c, frequencyMap.getOrDefault(c, 0) + 1);
+        }
+
+        
+        List<Node> nodes = new ArrayList<>();
+        for (Map.Entry<Character, Integer> entry : frequencyMap.entrySet()) {
+            nodes.add(new Node(entry.getKey(), entry.getValue()));
+        }
+
+        nodes.sort(Comparator.comparingInt(n -> n.frequency)); // Sort by frequency
+
+        
+        System.out.println("Character frequencies:");
+        for (Node node : nodes) {
+            System.out.println(node.character + ": " + node.frequency);
+        }
+
+        scanner.close();
+    }
+}
+
+or
+
+import java.util.*;
+
+public class SimpleHuffmanCoding {
+
+    
+    static class Node {
+        char character;
+        int frequency;
+        Node left, right;
+
+        public Node(char character, int frequency) {
+            this.character = character;
+            this.frequency = frequency;
+        }
+    }
+
+   
+    public static Node buildHuffmanTree(Map<Character, Integer> frequencies) {
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(n -> n.frequency));
+
+        
+        frequencies.forEach((c, freq) -> pq.add(new Node(c, freq)));
+
+        
+        while (pq.size() > 1) {
+            Node left = pq.poll();
+            Node right = pq.poll();
+
+            Node merged = new Node('\0', left.frequency + right.frequency);
+            merged.left = left;
+            merged.right = right;
+
+            pq.add(merged);
+        }
+
+        return pq.poll(); // Return the root of the Huffman tree
+    }
+
+    
+    public static void generateHuffmanCodes(Node root, StringBuilder code, Map<Character, String> huffmanCodes) {
+        if (root == null) return;
+
+       
+        if (root.left == null && root.right == null) {
+            huffmanCodes.put(root.character, code.toString());
+        }
+
+        
+        generateHuffmanCodes(root.left, code.append('0'), huffmanCodes);
+        code.deleteCharAt(code.length() - 1); // Backtrack
+
+        generateHuffmanCodes(root.right, code.append('1'), huffmanCodes);
+        code.deleteCharAt(code.length() - 1); // Backtrack
+    }
+
+   
+    public static String encode(String input, Map<Character, String> huffmanCodes) {
+        StringBuilder encodedString = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            encodedString.append(huffmanCodes.get(c));
+        }
+        return encodedString.toString();
+    }
+
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       
+        System.out.println("Enter the string to be encoded:");
+        String input = scanner.nextLine();
+
+        
+        Map<Character, Integer> frequencies = new HashMap<>();
+        for (char c : input.toCharArray()) {
+            frequencies.put(c, frequencies.getOrDefault(c, 0) + 1);
+        }
+
+       
+        Node root = buildHuffmanTree(frequencies);
+
+        
+        Map<Character, String> huffmanCodes = new HashMap<>();
+        generateHuffmanCodes(root, new StringBuilder(), huffmanCodes);
+
+        
+        System.out.println("Huffman Codes for each character:");
+        huffmanCodes.forEach((k, v) -> System.out.println(k + ": " + v));
+
+       
+        String encodedString = encode(input, huffmanCodes);
+        System.out.println("Encoded string: " + encodedString);
+
+       
+        String decodedString = decode(root, encodedString);
+        System.out.println("Decoded string: " + decodedString);
+
+        scanner.close();
+    }
+
+   
+    public static String decode(Node root, String encodedString) {
+        StringBuilder decodedString = new StringBuilder();
+        Node currentNode = root;
+
+       
+        for (int i = 0; i < encodedString.length(); i++) {
+            currentNode = (encodedString.charAt(i) == '0') ? currentNode.left : currentNode.right;
+
+           
+            if (currentNode.left == null && currentNode.right == null) {
+                decodedString.append(currentNode.character);
+                currentNode = root; // Go back to root
+            }
+        }
+
+        return decodedString.toString();
+    }
+}

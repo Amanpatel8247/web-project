@@ -1,0 +1,132 @@
+Q.1)
+import java.util.Scanner;
+
+public class MatrixMultiplication {
+    static int[][] multiplyMatrices(int[][] A, int[][] B, int m, int n, int p) {
+        int[][] result = new int[m][p];
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < p; j++) {
+                for (int k = 0; k < n; k++) {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+        
+        return result;
+    }
+
+    static void printMatrix(int[][] matrix, int m, int p) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < p; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of rows and columns for matrix A: ");
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        
+        System.out.print("Enter number of columns for matrix B: ");
+        int p = sc.nextInt();
+        
+        int[][] A = new int[m][n];
+        int[][] B = new int[n][p];
+
+        System.out.println("Enter elements of matrix A:");
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = sc.nextInt();
+            }
+        }
+
+        System.out.println("Enter elements of matrix B:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < p; j++) {
+                B[i][j] = sc.nextInt();
+            }
+        }
+
+        int[][] result = multiplyMatrices(A, B, m, n, p);
+
+        System.out.println("Result of matrix multiplication:");
+        printMatrix(result, m, p);
+    }
+}
+
+
+Q.2)
+import java.util.*;
+
+public class FractionalKnapsack {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter the number of items: ");
+        int n = scanner.nextInt();
+        int[] weights = new int[n];
+        int[] profits = new int[n];
+        double[] ratios = new double[n];
+
+        
+        System.out.println("Enter weight and profit of each item:");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Item " + (i + 1) + " - Weight: ");
+            weights[i] = scanner.nextInt();
+            System.out.print("Item " + (i + 1) + " - Profit: ");
+            profits[i] = scanner.nextInt();
+            ratios[i] = (double) profits[i] / weights[i]; // Calculate profit/weight ratio
+        }
+
+      
+        System.out.print("Enter capacity of the knapsack: ");
+        int capacity = scanner.nextInt();
+
+       
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (ratios[i] < ratios[j]) {
+                   
+                    double temp = ratios[i];
+                    ratios[i] = ratios[j];
+                    ratios[j] = temp;
+                   
+                    int tempWeight = weights[i];
+                    weights[i] = weights[j];
+                    weights[j] = tempWeight;
+
+                    int tempProfit = profits[i];
+                    profits[i] = profits[j];
+                    profits[j] = tempProfit;
+                }
+            }
+        }
+
+       
+        double totalProfit = 0.0;
+        int currentWeight = 0;
+        for (int i = 0; i < n; i++) {
+            if (currentWeight + weights[i] <= capacity) {
+               
+                currentWeight += weights[i];
+                totalProfit += profits[i];
+            } else {
+               
+                int remainingCapacity = capacity - currentWeight;
+                totalProfit += ratios[i] * remainingCapacity;
+                break; 
+            }
+        }
+
+        
+        System.out.printf("Maximum Profit = %.2f\n", totalProfit);
+
+        scanner.close();
+    }
+}

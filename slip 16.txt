@@ -1,0 +1,84 @@
+Q.1)
+import java.util.Scanner;
+
+public class FibonacciRecursive {
+
+   
+    static int fibonacci(int n) {
+        if (n <= 1)
+            return n;  
+        return fibonacci(n - 1) + fibonacci(n - 2); 
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Enter number of terms: ");
+        int n = scanner.nextInt();
+
+        System.out.println("Fibonacci Series:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(fibonacci(i) + " ");
+        }
+
+        scanner.close();
+    }
+}
+
+
+Q.2)
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class LinearSearchFromFile {
+
+   
+    public static int linearSearch(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i; 
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        try {
+            
+            File file = new File("input.txt");
+            Scanner fileScanner = new Scanner(file);
+
+           
+            java.util.ArrayList<Integer> list = new java.util.ArrayList<>();
+            while (fileScanner.hasNextInt()) {
+                list.add(fileScanner.nextInt());
+            }
+            fileScanner.close();
+
+            
+            int[] numbers = list.stream().mapToInt(i -> i).toArray();
+
+            
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter number to search: ");
+            int key = scanner.nextInt();
+
+          
+            int index = linearSearch(numbers, key);
+
+           
+            if (index != -1) {
+                System.out.println("Element found at index: " + index);
+            } else {
+                System.out.println("Element not found.");
+            }
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Make sure 'input.txt' exists.");
+        }
+    }
+}
